@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products - Saar Journey by Kaaya</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: white;
+            color: #1F1F1F;
+            line-height: 1.6;
+        }
+
+        .products-section {
+            padding: 60px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: #1F1F1F;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 60px 15px 20px;
+            border: none;
+            border-radius: 25px;
+            background-color: #F1EEE9;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .search-input:focus {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #684C4C;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background-color: #5a3f3f;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .search-icon {
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            background-color: transparent;
+            color: #1F1F1F;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .category-btn.active,
+        .category-btn:hover {
+            background-color: #684C4C;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(104, 76, 76, 0.3);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .product-card {
+          background: #F7F3F0;
+          border-radius: 15px;
+          padding: 25px;
+          box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: visible;
+          display: flex;
+          flex-direction: column;
+          min-height: 520px;
+          width: 100%;
+      }
+
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            object-position: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: none;
+        }
+
+        .product-card:hover .product-image {
+            transform: none;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #1F1F1F;
+            line-height: 1.3;
+            min-height: 50px;
+            overflow: visible;
+        }
+
+        .product-description {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            min-height: 60px;
+            overflow: visible;
+        }
+
+        .product-tags {
+            display: none; /* Hidden for search functionality */
+        }
+
+        .price-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            margin-top: auto;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #1F1F1F;
+        }
+
+        .buy-button-container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .buy-button {
+            background-color: #3F2E2E;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .buy-button:hover {
+            background-color: #2d1e1e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(63, 46, 46, 0.3);
+        }
+
+        .dropdown-arrow {
+            font-size: 0.8rem;
+            margin-left: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .buy-options {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            z-index: 50;
+            margin-bottom: 5px;
+        }
+
+        .buy-options.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .buy-option {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            color: #1F1F1F;
+        }
+
+        .buy-option:last-child {
+            border-bottom: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .buy-option:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .buy-option:hover {
+            background-color: #f5f5f5;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .page-btn {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background: white;
+            color: #1F1F1F;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background-color: #684C4C;
+            color: white;
+            border-color: #684C4C;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .no-products {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+
+            .product-card {
+                min-height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+                padding: 0 15px;
+            }
+
+            .product-card {
+                min-height: 480px;
+                padding: 20px;
+            }
+
+            .product-image {
+                height: 180px;
+            }
+
+            .categories {
+                gap: 10px;
+            }
+
+            .category-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .pagination {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-section {
+                padding: 40px 15px;
+            }
+
+            .products-grid {
+                gap: 20px;
+                padding: 0 10px;
+            }
+
+            .product-card {
+                min-height: 450px;
+                padding: 18px;
+            }
+
+
+            .product-image {
+                height: 160px;
+            }
+
+            .search-input {
+                padding: 12px 50px 12px 15px;
+            }
+
+            .search-btn {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="products-section">
+        <h1 class="section-title">All Products</h1>
+        
+        <div class="search-container">
+            <div class="search-wrapper">
+                <input type="text" class="search-input" placeholder="Search for your books here..." id="searchInput">
+                <button class="search-btn" onclick="searchProducts()">
+                    <span class="search-icon">🔍</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="categories">
+            <button class="category-btn active" onclick="filterCategory('all')">All Products</button>
+            <button class="category-btn" onclick="filterCategory('kindle')">Kindle ebooks</button>
+            <button class="category-btn" onclick="filterCategory('anxiety')">Anxiety Healing Series</button>
+        </div>
+        
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be dynamically loaded here -->
+        </div>
+        
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <script>
+        // Sample product data
+        const products = [
+            {
+                id: 1,
+                title: "Finding Real Love in a World Full of Fakes - Kindle",
+                description: "Tired of chasing love that only breaks you? This book helps you unlearn toxic patterns and find the kind of love that doesn't leave you empty.",
+                image: "https://res.cloudinary.com/dcbuvohee/image/upload/v1751446048/Finding_Real_Love_FINAL_ec1ib6.png",
+                priceINR: 259,
+                priceUSD: 3.99,
+                category: "kindle",
+                isKindle: true,
+                amazonUrl: "https://amazon.com/dp/YOUR-BOOK-ASIN",
+                tags: ["love", "relationships", "kindle", "ebook", "digital"]
+            },
+            {
+                id: 2,
+                title: "The End of Relationship Anxiety- PDF Guide",
+                description: "Break free from overthinking and constant fear — this guide helps you reclaim peace, trust, and emotional clarity in love.",
+                image: "https://res.cloudinary.com/dcbuvohee/image/upload/v1751446242/Relationship_anxiety_cover_yseokt.png",
+                priceINR: 159,
+                priceUSD: 2.99,
+                category: "anxiety",
+                tags: ["anxiety", "relationships", "guide", "pdf", "healing"],
+                razorpayINR: "https://razorpay.com/payment/anxiety-guide-inr",
+                razorpayUSD: "https://razorpay.com/payment/anxiety-guide-usd",
+                payhip: "https://payhip.com/anxiety-guide",
+                gumroad: "https://gumroad.com/anxiety-guide"
+            },
+            {
+                id: 3,
+                title: "Finding Real Love in a World Full of Fakes - Kindle",
+                description: "Tired of chasing love that only breaks you? This book helps you unlearn toxic patterns and find the kind of love that doesn't leave you empty.",
+                image: "https://res.cloudinary.com/dcbuvohee/image/upload/v1751446048/Finding_Real_Love_FINAL_ec1ib6.png",
+                priceINR: 199,
+                priceUSD: 2.99,
+                category: "kindle",
+                isKindle: true,
+                amazonUrl: "https://amazon.com/dp/YOUR-BOOK-ASIN-2",
+                tags: ["digital", "detox", "kindle", "wellness", "technology", "balance"]
+            },
+            {
+                id: 4,
+                title: "Mindfulness and Inner Peace",
+                description: "Tired of chasing love that only breaks you? This book helps you unlearn toxic patterns and find the kind of love that doesn't leave you empty.",
+                image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQwMCIgdmlld0JveD0iMCAwIDMwMCA0MDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjRjNFOUUzIi8+Cjx0ZXh0IHg9IjE1MCIgeT0iMTAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUYxRjFGIiBmb250LXNpemU9IjE0Ij5LQUFZQTwvdGV4dD4KPHN2ZyB4PSI3NSIgeT0iMTUwIiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjEwMCI+CjxjaXJjbGUgY3g9Ijc1IiBjeT0iNTAiIHI9IjQwIiBmaWxsPSIjODBCM0ZGIiBvcGFjaXR5PSIwLjciLz4KPC9zdmc+Cjx0ZXh0IHg9IjE1MCIgeT0iMjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUYxRjFGIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iYm9sZCI+TUlORUZVTE5FU1M8L3RleHQ+Cjx0ZXh0IHg9IjE1MCIgeT0iMzA1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMUYxRjFGIiBmb250LXNpemU9IjEyIj5BTkQgSU5ORVIgUEVBQ0U8L3RleHQ+CjwvcD6nPg==",
+                priceINR: 299,
+                priceUSD: 4.99,
+                category: "all",
+                tags: ["mindfulness", "peace", "meditation", "spiritual", "wellness"],
+                razorpayINR: "https://razorpay.com/payment/mindfulness-inr",
+                razorpayUSD: "https://razorpay.com/payment/mindfulness-usd",
+                payhip: "https://payhip.com/mindfulness",
+                gumroad: "https://gumroad.com/mindfulness"
+            },
+          {
+                id: 5,
+                title: "Finding Real Love in a World Full of Fakes - Kindle",
+                description: "Tired of chasing love that only breaks you? This book helps you unlearn toxic patterns and find the kind of love that doesn't leave you empty.",
+                image: "https://res.cloudinary.com/dcbuvohee/image/upload/v1751446048/Finding_Real_Love_FINAL_ec1ib6.png",
+                priceINR: 199,
+                priceUSD: 2.99,
+                category: "kindle",
+                isKindle: true,
+                amazonUrl: "https://amazon.com/dp/YOUR-BOOK-ASIN-2",
+                tags: ["digital", "detox", "kindle", "wellness", "technology", "balance"]
+            },
+          {
+                id: 6,
+                title: "Finding Real Love in a World Full of Fakes - Kindle",
+                description: "Tired of chasing love that only breaks you? This book helps you unlearn toxic patterns and find the kind of love that doesn't leave you empty.",
+                image: "https://res.cloudinary.com/dcbuvohee/image/upload/v1751446048/Finding_Real_Love_FINAL_ec1ib6.png",
+                priceINR: 199,
+                priceUSD: 2.99,
+                category: "kindle",
+                isKindle: true,
+                amazonUrl: "https://amazon.com/dp/YOUR-BOOK-ASIN-2",
+                tags: ["digital", "detox", "kindle", "wellness", "technology", "balance"]
+            },
+          {
+                id: 7,
+                title: "Finding Real Love in a World Full of Fakes - Kindle",
+                description: "Tired of chasing love that only breaks you? This book helps you unlearn toxic patterns and find the kind of love that doesn't leave you empty.",
+                image: "https://res.cloudinary.com/dcbuvohee/image/upload/v1751446048/Finding_Real_Love_FINAL_ec1ib6.png",
+                priceINR: 199,
+                priceUSD: 2.99,
+                category: "kindle",
+                isKindle: true,
+                amazonUrl: "https://amazon.com/dp/YOUR-BOOK-ASIN-2",
+                tags: ["digital", "detox", "kindle", "wellness", "technology", "balance"]
+            },
+          {
+                id: 8,
+                title: "Finding Real Love in a World Full of Fakes - Kindle",
+                description: "Tired of chasing love that only breaks you? This book helps you unlearn toxic patterns and find the kind of love that doesn't leave you empty.",
+                image: "https://res.cloudinary.com/dcbuvohee/image/upload/v1751446048/Finding_Real_Love_FINAL_ec1ib6.png",
+                priceINR: 199,
+                priceUSD: 2.99,
+                category: "kindle",
+                isKindle: true,
+                amazonUrl: "https://amazon.com/dp/YOUR-BOOK-ASIN-2",
+                tags: ["digital", "detox", "kindle", "wellness", "technology", "balance"]
+            },
+          {
+                id: 9,
+                title: "Finding Real Love in a World Full of Fakes - Kindle",
+                description: "Tired of chasing love that only breaks you? This book helps you unlearn toxic patterns and find the kind of love that doesn't leave you empty.",
+                image: "https://res.cloudinary.com/dcbuvohee/image/upload/v1751446048/Finding_Real_Love_FINAL_ec1ib6.png",
+                priceINR: 199,
+                priceUSD: 2.99,
+                category: "kindle",
+                isKindle: true,
+                amazonUrl: "https://amazon.com/dp/YOUR-BOOK-ASIN-2",
+                tags: ["digital", "detox", "kindle", "wellness", "technology", "balance"]
+            },
+          {
+                id: 10,
+                title: "Finding Real Love in a World Full of Fakes - Kindle",
+                description: "Tired of chasing love that only breaks you? This book helps you unlearn toxic patterns and find the kind of love that doesn't leave you empty.",
+                image: "https://res.cloudinary.com/dcbuvohee/image/upload/v1751446048/Finding_Real_Love_FINAL_ec1ib6.png",
+                priceINR: 199,
+                priceUSD: 2.99,
+                category: "kindle",
+                isKindle: true,
+                amazonUrl: "https://amazon.com/dp/YOUR-BOOK-ASIN-2",
+                tags: ["digital", "detox", "kindle", "wellness", "technology", "balance"]
+            },
+        ];
+
+        // Global variables
+        let currentCategory = 'all';
+        let currentPage = 1;
+        const productsPerPage = 9;
+        let filteredProducts = [...products];
+        let userLocation = 'IN'; // Default to India
+
+        // Detect user location (simplified version)
+        function detectUserLocation() {
+            // In a real implementation, you would use geolocation API or IP detection
+            // For demo purposes, we'll use a simple timezone check
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            if (timezone.includes('Asia/Kolkata') || timezone.includes('Asia/Calcutta')) {
+                userLocation = 'IN';
+            } else {
+                userLocation = 'US';
+            }
+        }
+
+        // Initialize the page
+        function init() {
+            detectUserLocation();
+            displayProducts();
+            setupEventListeners();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', debounce(searchProducts, 300));
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.buy-button-container')) {
+                    document.querySelectorAll('.buy-options').forEach(dropdown => {
+                        dropdown.classList.remove('show');
+                    });
+                }
+            });
+        }
+
+        // Debounce function for search
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Search products
+        function searchProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchTerm === '') {
+                filteredProducts = products.filter(product => 
+                    currentCategory === 'all' || product.category === currentCategory
+                );
+            } else {
+                filteredProducts = products.filter(product => {
+                    const matchesCategory = currentCategory === 'all' || product.category === currentCategory;
+                    const matchesSearch = 
+                        product.title.toLowerCase().includes(searchTerm) ||
+                        product.description.toLowerCase().includes(searchTerm) ||
+                        product.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                    
+                    return matchesCategory && matchesSearch;
+                });
+            }
+            
+            currentPage = 1;
+            displayProducts();
+        }
+
+        // Filter by category
+        function filterCategory(category) {
+            currentCategory = category;
+            currentPage = 1;
+            
+            // Update active category button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Clear search
+            document.getElementById('searchInput').value = '';
+            
+            // Filter products
+            if (category === 'all') {
+                filteredProducts = [...products];
+            } else {
+                filteredProducts = products.filter(product => product.category === category);
+            }
+            
+            displayProducts();
+        }
+
+        // Display products
+        function displayProducts() {
+            const startIndex = (currentPage - 1) * productsPerPage;
+            const endIndex = startIndex + productsPerPage;
+            const productsToShow = filteredProducts.slice(startIndex, endIndex);
+            
+            const productsGrid = document.getElementById('productsGrid');
+            
+            if (productsToShow.length === 0) {
+                productsGrid.innerHTML = '<div class="no-products">No products found matching your criteria.</div>';
+            } else {
+                productsGrid.innerHTML = productsToShow.map(product => createProductCard(product)).join('');
+            }
+            
+            updatePagination();
+        }
+
+        // Create product card HTML
+function createProductCard(product) {
+    const price = userLocation === 'IN' ? `₹${product.priceINR}` : `$${product.priceUSD}`;
+    
+    // Check if it's a Kindle product
+    if (product.isKindle) {
+        return `
+            <div class="product-card">
+                <img src="${product.image}" alt="${product.title}" class="product-image">
+                <div class="product-tags" style="display: none;">${product.tags.join(', ')}</div>
+                <h3 class="product-title">${product.title}</h3>
+                <p class="product-description">${product.description}</p>
+                <div class="price-section">
+                    <span class="price">${price}</span>
+                </div>
+                <div class="buy-button-container">
+                    <button class="buy-button" onclick="redirectTo('${product.amazonUrl}')">
+                         BUY NOW ON AMAZON
+                    </button>
+                </div>
+            </div>
+        `;
+    } else {
+        // Regular product with dropdown options
+        const buyText = userLocation === 'IN' ? 'BUY NOW' : 'BUY NOW';
+        
+        return `
+            <div class="product-card">
+                <img src="${product.image}" alt="${product.title}" class="product-image">
+                <div class="product-tags" style="display: none;">${product.tags.join(', ')}</div>
+                <h3 class="product-title">${product.title}</h3>
+                <p class="product-description">${product.description}</p>
+                <div class="price-section">
+                    <span class="price">${price}</span>
+                </div>
+                <div class="buy-button-container">
+                    <button class="buy-button" onclick="handleBuyClick(${product.id}, event)">
+                        ${buyText}
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="buy-options" id="buyOptions${product.id}">
+                        <div class="buy-option" onclick="redirectTo('${userLocation === 'IN' ? product.razorpayINR : product.razorpayUSD}')">
+                            Direct Payment (Razorpay)
+                        </div>
+                        <div class="buy-option" onclick="redirectTo('${product.payhip}')">
+                            Payhip
+                        </div>
+                        <div class="buy-option" onclick="redirectTo('${product.gumroad}')">
+                            Gumroad
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+}
+
+        // Handle buy button click
+        function handleBuyClick(productId, event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById(`buyOptions${productId}`);
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.buy-options').forEach(d => {
+                if (d !== dropdown) d.classList.remove('show');
+            });
+            
+            // Toggle current dropdown
+            dropdown.classList.toggle('show');
+            
+            // Rotate arrow
+            const arrow = event.target.querySelector('.dropdown-arrow');
+            if (dropdown.classList.contains('show')) {
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Redirect to payment page
+        function redirectTo(url) {
+            window.open(url, '_blank');
+        }
+
+        // Update pagination
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            const paginationContainer = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `
+                <button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    ‹
+                </button>
+            `;
+            
+            // Page numbers
+            for (let i = 1; i <= Math.min(totalPages, 10); i++) {
+                if (i === currentPage) {
+                    paginationHTML += `<button class="page-btn active">${i}</button>`;
+                } else {
+                    paginationHTML += `<button class="page-btn" onclick="changePage(${i})">${i}</button>`;
+                }
+            }
+            
+            // Show ellipsis and last page if needed
+            if (totalPages > 10) {
+                paginationHTML += `<span>...</span>`;
+                paginationHTML += `<button class="page-btn" onclick="changePage(${totalPages})">${totalPages}</button>`;
+            }
+            
+            // Next button
+            paginationHTML += `
+                <button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    ›
+                </button>
+            `;
+            
+            paginationContainer.innerHTML = paginationHTML;
+        }
+
+        // Change page
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            displayProducts();
+            
+            // Scroll to top of products section
+            document.querySelector('.products-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
