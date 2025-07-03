@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>All Products - Saar Journey by Kaaya</title>
     <style>
         * {
@@ -16,12 +16,19 @@
             background-color: FCFAF8;
             color: #1F1F1F;
             line-height: 1.6;
+            min-height: 100vh; /* Add this */
+            height: auto; /* Add this */
+            overflow-x: hidden; /* Add this */
+            overflow-y: auto; /* Add this */
         }
 
         .products-section {
             padding: 60px 20px;
             max-width: 1400px;
             margin: 0 auto;
+            min-height: 100vh; /* Add this */
+            height: auto; /* Add this */
+            overflow: visible; /* Add this */
         }
 
         .section-title {
@@ -389,6 +396,21 @@
                 height: 40px;
             }
         }
+            /* Embedded iframe styles */
+      html, body {
+          width: 100%;
+          height: auto;
+          min-height: 100vh;
+          margin: 0;
+          padding: 0;
+          overflow-x: hidden;
+      }
+
+      /* Ensure proper sizing for embedded content */
+      .products-section {
+          width: 100%;
+          box-sizing: border-box;
+      }
     </style>
 </head>
 <body>
@@ -798,12 +820,18 @@ function createProductCard(product) {
         function changePage(page) {
             const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
             if (page < 1 || page > totalPages) return;
-            
+
             currentPage = page;
             displayProducts();
-            
-            // Scroll to top of products section
-            document.querySelector('.products-section').scrollIntoView({ behavior: 'smooth' });
+
+            // Scroll to top of products section - updated for embedded context
+            if (window.parent && window.parent !== window) {
+                // If embedded in iframe, try to scroll parent window
+                window.parent.postMessage({type: 'scrollToTop'}, '*');
+            } else {
+                // Normal scroll behavior
+                document.querySelector('.products-section').scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         // Initialize the page when DOM is loaded
