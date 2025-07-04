@@ -14,22 +14,20 @@
 
         body {
             font-family: 'Georgia', serif;
-            background-color: FCFAF8;
+            background-color: #FCFAF8;
             color: #1F1F1F;
             line-height: 1.6;
-            min-height: 100vh; /* Add this */
-            height: auto; /* Add this */
-            overflow-x: hidden; /* Add this */
-            overflow-y: auto; /* Add this */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
         .products-section {
             padding: 60px 20px;
             max-width: 1400px;
             margin: 0 auto;
-            min-height: 100vh; /* Add this */
-            height: auto; /* Add this */
-            overflow: visible; /* Add this */
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .section-title {
@@ -837,6 +835,37 @@ function createProductCard(product) {
 
         // Initialize the page when DOM is loaded
         document.addEventListener('DOMContentLoaded', init);
+
+        // Auto-resize iframe functionality
+if (window.parent && window.parent !== window) {
+    function resizeIframe() {
+        const height = Math.max(
+            document.body.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.clientHeight,
+            document.documentElement.scrollHeight,
+            document.documentElement.offsetHeight
+        );
+        window.parent.postMessage({
+            type: 'resize',
+            height: height
+        }, '*');
+    }
+    
+    // Initial resize
+    setTimeout(resizeIframe, 100);
+    
+    // Resize on content changes
+    const observer = new MutationObserver(resizeIframe);
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true
+    });
+    
+    // Resize on window resize
+    window.addEventListener('resize', resizeIframe);
+}
     </script>
 </body>
 </html>
